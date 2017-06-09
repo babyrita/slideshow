@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .outer {
+            width: 490px;
+            height: 170px;
+            margin: 100px auto;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+        .inner {
+            width: 490px;
+            height: 170px;
+            position: relative;
+            /*overflow: hidden;*/
+        }
+        img {
+            vertical-align: middle;
+        }
+        ul {
+            width: 510%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        ul li {
+            float: left;
+        }
+        ol {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        ol li {
+            float: left;
+            width: 16px;
+            height: 16px;
+            margin: 0 7px;
+            border: 1px solid #ccc;
+            text-align: center;
+            line-height: 16px;
+            cursor: pointer;
+            background-color: #fff;
+        }
+        .current {
+            color: #fff;
+            background-color: orange;
+        }
+    </style>
+    <script>
+        window.onload = function (){
+            var outer = document.getElementById("outer");
+            var inner = document.getElementsByClassName("inner")[0];
+            var imgWidth = inner.offsetWidth;
+            var ul = document.getElementsByTagName("ul")[0];
+            var ol = document.getElementsByTagName("ol")[0];
+            var liArr = ol.children;
+
+           for(var i=0;i<liArr.length;i++){
+               liArr[i]["index"] = i;
+               liArr[i].onmouseover = function (){
+                   for(var j=0;j<liArr.length;j++){
+                       liArr[j].className = "";
+                   }
+                   liArr[this.index].className ="current";
+                   var s = imgWidth*this.index;
+                   animate(ul,-s);
+               }
+           }
+
+            function animate(ele,target){
+                clearInterval(ele.timer)
+                    ele.timer = setInterval(function(){
+                        var step = target>ele.offsetLeft?10:-10;
+                        ele.style.left = ele.offsetLeft+step+"px";
+                        if(Math.abs(target-ele.offsetLeft)<=Math.abs(step)){
+                            ele.style.left = target+"px";
+                            clearInterval(ele.timer);
+                        }
+                    },10);
+                }
+            }
+    </script>
+
+</head>
+<body>
+<div class="outer" id="outer">
+    <div class="inner">
+        <ul>
+            <li><img src="images/01.jpg" alt=""/></li>
+            <li><img src="images/02.jpg" alt=""/></li>
+            <li><img src="images/03.jpg" alt=""/></li>
+            <li><img src="images/04.jpg" alt=""/></li>
+            <li><img src="images/05.jpg" alt=""/></li>
+        </ul>
+        <ol>
+            <li class="current">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ol>
+    </div>
+</div>
+
+</body>
+</html>
